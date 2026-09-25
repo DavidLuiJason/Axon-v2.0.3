@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, ChevronDown, MoreVertical, Plus, RotateCcw, Share2, Info, Sparkles } from 'lucide-react';
+import { Menu, ChevronDown, MoreVertical, Plus, RotateCcw, Share2, Info, Sparkles, Layers } from 'lucide-react';
 import { AXON_TOKENS } from '../tokens/designTokens';
 
 interface TopBarProps {
@@ -13,6 +13,7 @@ interface TopBarProps {
   onResetToWelcome: () => void;
   hasActiveChat: boolean;
   onOpenInfo: () => void;
+  onOpenInterfaceCapture?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -21,6 +22,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onResetToWelcome,
   hasActiveChat,
   onOpenInfo,
+  onOpenInterfaceCapture,
 }) => {
   const [isAxonMenuOpen, setIsAxonMenuOpen] = useState(false);
   const [isOverflowOpen, setIsOverflowOpen] = useState(false);
@@ -115,12 +117,22 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="absolute top-11 right-0 w-56 py-1.5 bg-[#1C1D21] border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl z-50 text-xs">
             <button
               onClick={() => {
+                onOpenInterfaceCapture?.();
+                setIsOverflowOpen(false);
+              }}
+              className="w-full text-left px-3.5 py-2.5 hover:bg-white/5 flex items-center gap-2.5 text-[#E0E2E6]"
+            >
+              <Layers size={15} className="text-[#E85A3C]" />
+              <span>Interface Capture</span>
+            </button>
+            <button
+              onClick={() => {
                 onOpenInfo();
                 setIsOverflowOpen(false);
               }}
               className="w-full text-left px-3.5 py-2.5 hover:bg-white/5 flex items-center gap-2.5 text-[#E0E2E6]"
             >
-              <Info size={15} className="text-[#E85A3C]" />
+              <Info size={15} className="text-[#9A9B9F]" />
               <span>Design System Tokens</span>
             </button>
             <button

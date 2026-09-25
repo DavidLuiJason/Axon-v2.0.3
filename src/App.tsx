@@ -12,6 +12,7 @@ import { ActiveConversation } from './components/ActiveConversation';
 import { DesignTokensModal } from './components/DesignTokensModal';
 import { SettingsModal } from './components/SettingsModal';
 import { AxonSourceScreen } from './components/AxonSourceScreen';
+import { InterfaceCaptureScreen } from './components/InterfaceCaptureScreen';
 import { ChatMessage, RecentChat } from './types';
 import { sendQueryToAxonBoundary } from './services/axonBrainInterface';
 
@@ -96,7 +97,7 @@ const INITIAL_RECENTS: RecentChat[] = [
 export default function App() {
   // Navigation & Drawer state
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'chat' | 'axon-source'>('chat');
+  const [currentScreen, setCurrentScreen] = useState<'chat' | 'axon-source' | 'interface-capture'>('chat');
   const [activeChatId, setActiveChatId] = useState<string | null>(null); // null = Welcome state (Image 1)
   const [recents, setRecents] = useState<RecentChat[]>(INITIAL_RECENTS);
 
@@ -233,6 +234,8 @@ export default function App() {
           selectedModel={selectedModel}
           activeChatId={activeChatId}
         />
+      ) : currentScreen === 'interface-capture' ? (
+        <InterfaceCaptureScreen onLogoClick={handleNonChatLogoClick} />
       ) : (
         <>
           {/* 1. ANCHORED PERSISTENT TOP BAR */}
@@ -242,6 +245,7 @@ export default function App() {
             onResetToWelcome={handleNewChat}
             hasActiveChat={Boolean(activeChatId)}
             onOpenInfo={() => setIsTokensModalOpen(true)}
+            onOpenInterfaceCapture={() => setCurrentScreen('interface-capture')}
           />
 
           {/* 2. INDEPENDENT SCROLLING VIEWPORT AREA */}
@@ -288,6 +292,10 @@ export default function App() {
         onOpenSettings={() => setIsSettingsModalOpen(true)}
         onOpenAxonSource={() => {
           setCurrentScreen('axon-source');
+          setIsDrawerOpen(false);
+        }}
+        onOpenInterfaceCapture={() => {
+          setCurrentScreen('interface-capture');
           setIsDrawerOpen(false);
         }}
         onLogoClick={handleDrawerLogoClick}

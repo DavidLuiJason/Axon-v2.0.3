@@ -28,6 +28,7 @@ interface NavigationDrawerProps {
   onNewChat: () => void;
   onOpenSettings: () => void;
   onOpenAxonSource?: () => void;
+  onOpenInterfaceCapture?: () => void;
   onLogoClick?: () => void;
 }
 
@@ -40,6 +41,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
   onNewChat,
   onOpenSettings,
   onOpenAxonSource,
+  onOpenInterfaceCapture,
   onLogoClick,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -167,7 +169,10 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
 
             {/* Tools */}
             <button
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                onOpenInterfaceCapture?.();
+              }}
               className="w-full h-11 px-3 rounded-xl flex items-center gap-3.5 text-[#E0E2E6] hover:bg-white/5 transition-colors text-[14.5px]"
             >
               <div className="w-5 h-5 flex items-center justify-center text-[#D0D2D6]">
